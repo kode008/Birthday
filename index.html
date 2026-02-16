@@ -370,25 +370,7 @@
             transform: scale(1.1);
         }
 
-        .delete-photo {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(255,0,0,0.8);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 18px;
-        }
-
-        .gallery-item:hover .delete-photo {
-            opacity: 1;
-        }
+        
 
         .submit-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -490,6 +472,26 @@ body{
     box-shadow:0 0 40px rgba(255,0,100,.6);
     display:none;
 }
+
+.hide-letter-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: #ff4da6;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hide-letter-btn:hover {
+    background: #ff1a75;
+    transform: scale(1.05);
+}
+
 
 </style>
 </head>
@@ -807,19 +809,19 @@ body{
         // }
 
         function renderGallery() {
-            const grid = document.getElementById('galleryGrid');
-            grid.innerHTML = '';
-            
-            photos.forEach((photo, index) => {
-                const item = document.createElement('div');
-                item.className = 'gallery-item';
-                item.innerHTML = `
-                 <img src="${photo}" alt="Memory ${index + 1}">
-                    
-                `;
-                grid.appendChild(item);
-            });
-        }
+    const grid = document.getElementById('galleryGrid');
+    grid.innerHTML = '';
+    
+    photos.forEach((photo, index) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.innerHTML = `
+            <img src="${photo}" alt="Memory ${index + 1}">
+        `;
+        grid.appendChild(item);
+    });
+}
+
 
         function deletePhoto(index) {
             photos.splice(index, 1);
@@ -890,14 +892,25 @@ window.addEventListener('load',()=>{
     setTimeout(showLetter,4000);
 });
 
+function hideLetter() {
+    const letter = document.getElementById('loveLetter');
+    letter.style.transition = "opacity 0.5s ease";
+    letter.style.opacity = "0";
+    setTimeout(() => {
+        letter.style.display = "none";
+    }, 500);
+}
+
 </script>
 
 <div class="love-letter" id="loveLetter">
-💌 To My Dearest Pratigya,<br><br>
-You were the most beautiful chapter of my life.<br>
-Every moment with you felt like magic.<br>
-Happy Birthday, my dear ❤️
+    <button class="hide-letter-btn" onclick="hideLetter()">Hide 💕</button>
+    💌 To My Dearest Pratigya,<br><br>
+    You were the most beautiful chapter of my life.<br>
+    Every moment with you felt like magic.<br>
+    Happy Birthday, my dear ❤️
 </div>
+
 
 </body>
 </html>
