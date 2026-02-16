@@ -76,7 +76,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 120px 20px 40px;
         }
 
         .header {
@@ -452,7 +452,46 @@
                 height: 170px;
             }
         }
-    </style>
+    
+@keyframes floatUp{
+from{transform:translateY(0);opacity:1}
+to{transform:translateY(-150px);opacity:0}
+}
+
+body{
+    background: radial-gradient(circle at top, #1a0026, #000);
+    color:white;
+}
+.header h1{
+    text-shadow:0 0 20px #ff4da6,0 0 40px #ff1a75;
+}
+.star{
+    position:fixed;
+    width:2px;
+    height:2px;
+    background:white;
+    animation: twinkle 2s infinite alternate;
+}
+@keyframes twinkle{
+    from{opacity:.2}
+    to{opacity:1}
+}
+.love-letter{
+    position:fixed;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#fff;
+    color:#ff4da6;
+    padding:20px 30px;
+    border-radius:20px;
+    font-family:cursive;
+    font-size:22px;
+    box-shadow:0 0 40px rgba(255,0,100,.6);
+    display:none;
+}
+
+</style>
 </head>
 <body>
     <!-- Music Player -->
@@ -464,7 +503,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>🎉 Happy Birthday! 🎉</h1>
+            <h1>🎉 Happy Birthday Dallu ❤️ 🎉</h1>
         </div>
 
         <!-- Personalized Message -->
@@ -472,7 +511,7 @@
             <h2 class="message-title">A Special Message Just For You</h2>
             <p class="message-text">
                 Today we celebrate YOU! 🎂<br>
-                Your kindness, your laughter, your amazing spirit.<br>
+                Your Amazing Darling, your laughter, your spirit.<br>
                 May this year bring you endless joy, love, and wonderful memories.<br>
                 You deserve all the happiness in the world! ✨<br>
                 <strong>Here's to another incredible year!</strong>
@@ -523,12 +562,12 @@
 
         <!-- Photo Gallery -->
         <div class="gallery-section">
-            <h2 class="section-title">📸 Memory Gallery</h2>
-            <div class="upload-area" onclick="document.getElementById('photoInput').click()">
+            <h2 class="section-title">📸 Precious Memory Gallery</h2>
+            <!-- <div class="upload-area" onclick="document.getElementById('photoInput').click()"> 
                 <input type="file" id="photoInput" accept="image/*" multiple onchange="handlePhotoUpload(event)">
                 <p style="font-size: 1.2rem; color: #ff6b6b;">📷 Click to upload photos!</p>
                 <p style="color: #999;">Share your favorite memories</p>
-            </div>
+             </div> -->
             <div class="gallery-grid" id="galleryGrid"></div>
         </div>
     </div>
@@ -745,20 +784,27 @@
         }
 
         // Photo Gallery
-        let photos = [];
+        let photos = [
+            "IMG_2044.JPG",
+            "IMG-4889.JPG",
+            "IMG-4920.JPG",
+            "IMG_202602162056254.JPG",
+            "IMG_9296.PNG",
+            "IMG_6415.PNG"
+        ];
 
-        function handlePhotoUpload(event) {
-            const files = event.target.files;
+        // function handlePhotoUpload(event) {
+        //     const files = event.target.files;
             
-            for (let file of files) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    photos.push(e.target.result);
-                    renderGallery();
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+        //     for (let file of files) {
+        //         const reader = new FileReader();
+        //         reader.onload = function(e) {
+        //             photos.push(e.target.result);
+        //             renderGallery();
+        //         };
+        //         reader.readAsDataURL(file);
+        //     }
+        // }
 
         function renderGallery() {
             const grid = document.getElementById('galleryGrid');
@@ -768,8 +814,8 @@
                 const item = document.createElement('div');
                 item.className = 'gallery-item';
                 item.innerHTML = `
-                    <img src="${photo}" alt="Memory ${index + 1}">
-                    <button class="delete-photo" onclick="deletePhoto(${index})">×</button>
+                 <img src="${photo}" alt="Memory ${index + 1}">
+                    
                 `;
                 grid.appendChild(item);
             });
@@ -780,9 +826,40 @@
             renderGallery();
         }
 
-        // Launch confetti on page load
+        
+// --- Preloaded photo lock ---
+const preloadedCount = photos.length;
+
+// --- Auto slideshow ---
+// let slideIndex = 0;
+// setInterval(() => {
+//     const items = document.querySelectorAll('.gallery-item img');
+//     if(items.length === 0) return;
+//     items.forEach(i => i.style.opacity = 0.4);
+//     items[slideIndex].style.opacity = 1;
+//     slideIndex = (slideIndex + 1) % items.length;
+// }, 3000);
+
+// --- Floating hearts ---
+function createHeart(x,y){
+    const heart = document.createElement("div");
+    heart.innerHTML = "❤️";
+    heart.style.position="fixed";
+    heart.style.left=x+"px";
+    heart.style.top=y+"px";
+    heart.style.fontSize="20px";
+    heart.style.pointerEvents="none";
+    heart.style.animation="floatUp 2s linear forwards";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),2000);
+}
+document.addEventListener("click",(e)=>createHeart(e.clientX,e.clientY));
+
+
+// Launch confetti on page load
         window.addEventListener('load', () => {
             setTimeout(createConfetti, 500);
+            renderGallery();
             
             // Auto-play music after user interaction
             document.body.addEventListener('click', function autoPlay() {
@@ -792,6 +869,35 @@
                 document.body.removeEventListener('click', autoPlay);
             }, { once: true });
         });
-    </script>
+    
+function createStars(){
+    for(let i=0;i<120;i++){
+        const s=document.createElement('div');
+        s.className='star';
+        s.style.left=Math.random()*100+'vw';
+        s.style.top=Math.random()*100+'vh';
+        s.style.animationDelay=Math.random()*2+'s';
+        document.body.appendChild(s);
+    }
+}
+
+function showLetter(){
+    document.getElementById('loveLetter').style.display='block';
+}
+
+window.addEventListener('load',()=>{
+    createStars();
+    setTimeout(showLetter,4000);
+});
+
+</script>
+
+<div class="love-letter" id="loveLetter">
+💌 To My Dearest Pratigya,<br><br>
+You were the most beautiful chapter of my life.<br>
+Every moment with you felt like magic.<br>
+Happy Birthday, my dear ❤️
+</div>
+
 </body>
 </html>
